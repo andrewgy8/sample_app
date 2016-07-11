@@ -29,8 +29,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                               }
     end
     assert_template 'users/show'
-    assert_select "div.<alert alert-success>"
-
+    assert is_logged_in?
+    
   end
 
 end

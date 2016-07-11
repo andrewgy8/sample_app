@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class UsersLoginTest < ActionDispatch::IntegrationTest
+  
+  def setup
+    #calls user: andrew from the fixture.yml file
+    @user = users(:andrew)
+    
+  end
+
   test "invalid login does not allow sign in" do
     get login_path
     assert_template 'sessions/new'
@@ -10,4 +17,36 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     get root_path
     assert flash.empty?
   end
+
+  test "login in with valid user followed by logout" do
+    get login_path
+    post login_path, session: { email: @user.email, password: 'password' }
+    assert is_logged_in?
+    assert_redirected_to @user
+    follow_redirect!
+    assert_template 'users/show'
+    assert_select "a[href=?]", login_path, count: 0
+    assert_select "a[href=?]", logout_path
+    assert_select "a[href=?]", user_path(@user)
+    delete logout_path
+    assert_not is_logged_in?
+    assert_redirected_to root_url
+    #simulate a user logging out
+    delete logout_path
+    follow_redirect!
+    assert_select "a[href=?]", login_path
+    assert_select "a[href=?]", logout_path, count: 0
+    assert_select "a[href=?]", user_path(@user), count: 0
+  end
+
+  test "login with remembering" do
+    log_in_as(@user, remember_me: '1')
+    assert_not_nil cookies['remember_token']
+  end
+
+  test "Login without remembering" do
+    log_in_as(@user, remember_me: '0')
+    assert_nil cookies['remember_token']
+  end
+
 end

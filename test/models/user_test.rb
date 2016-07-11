@@ -63,4 +63,9 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
+  #testing that the user can not be logged in without the remember digest being produced for the user
+  test "authenticated? should return false for any user with nil remember_digest" do
+    assert_not @user.authenticated?('')
+  end
+
 end

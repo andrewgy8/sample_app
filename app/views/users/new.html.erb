@@ -3,6 +3,7 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
+  <!-- generates a form for the variables name, email, and password to be passed to the users controller -->
   	<%= form_for(@user) do |f| %>
   		<%= render "shared/error_messages" %>
 	  	<%= f.label :name %>
