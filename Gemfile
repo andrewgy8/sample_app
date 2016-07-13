@@ -25,6 +25,14 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass', '3.2.0.0'
 
+#faker is a gem to generate a fake DB
+#it should usually be put into the developement environment since it will be used to develop a test DB
+gem 'faker', '1.4.2'
+
+#allows for pages to be generated on a view
+gem 'will_paginate',           '3.0.7'
+gem 'bootstrap-will_paginate', '0.0.10'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

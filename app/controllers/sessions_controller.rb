@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       params[:session][:remember_me] == '1' ? remember(user) : forget(user)
 
       #redirects to the show.html.erb of the user, gravatar and profile info
-      redirect_to user
+      redirect_back_or user
     else
       #
       flash.now[:danger] = 'Incorrect Email/Password. Please try again.'

@@ -3,4 +3,18 @@
 andrew:
   name: Andrew Graham
   email: andrewgy8@gmail.com
+  # this inserts a password digest for the user using ERB which is valid in .yml files!
   password_digest: <%= User.digest('password') %>
+  admin: true
+
+eva: 
+  name: Eva Piera
+  email: eva@beautiful.com
+  password_digest: <%= User.digest('password') %>
+
+<% 30.times do |n| %>
+user_<%= n %>:
+  name:  <%= "User#{n}" %>
+  email: <%= "Email-#{n}@example.com" %>
+  password_digest: <%= User.digest('password') %>
+<% end %>

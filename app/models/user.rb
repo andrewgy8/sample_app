@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
   attr_accessor :remember_token
-  
   before_save { self.email = email.downcase }
   
   validates :name, presence: true, length: {maximum: 50}
@@ -8,7 +7,9 @@ class User < ActiveRecord::Base
   validates :email, presence: true, length: {maximum: 255}, 
                     format: {with: VALID_EMAIL_REGEX}, 
                     uniqueness: {case_sensitive: false}
-  validates :password, length: {minimum: 6}, presence: true
+  #password cannot be nil during initial user creation since the
+  # "has_secure_password" already has built in catch for nil passwords
+  validates :password, length: {minimum: 6}, presence: true, allow_nil: true
 
   has_secure_password
 
@@ -37,7 +38,8 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
-  #Updates the remember digest to nil when the user logs out, clearing all the remember cookies
+  #Updates the remember digest to nil when the user logs out, 
+  #clearing all the remember cookies
   def forget
     update_attribute(:remember_digest, nil)
     

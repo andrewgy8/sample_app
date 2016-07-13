@@ -1,0 +1,18 @@
+<% provide(:title, "All Users") %>
+
+<h1>All Users</h1>
+
+<!-- "magic method" that searches for @users object to paginate 
+through and display links to other pages 
+-requires the special .paginate mathod to call all users in a DB 
+-deafult number on one page is 30 users or objects in a DB -->
+
+<%= will_paginate %>
+
+<ul class="users">
+<!-- compact code that will render the _user partial 
+rails automatically infers that @users is a list of User objects -->
+	<%= render @users %>
+</ul>
+
+<%= will_paginate %>

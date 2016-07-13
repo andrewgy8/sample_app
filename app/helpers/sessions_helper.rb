@@ -33,6 +33,12 @@ module SessionsHelper
     end      
   end
 
+  #used in users controller to determine that the edit page requested is from the correct 
+  #logged in user
+  def current_user?(user)
+    current_user == user
+  end
+
   #used in the header layou to determine if the headeer should contain the proper links for the signed in user
   #true, unless current user is nil which is when the user is logged out
   def logged_in?
@@ -54,5 +60,18 @@ module SessionsHelper
     cookies.delete(:user_id)
     #deletes remember token cookies from user browser 
     cookies.delete(:remember_token)
+  end
+
+  #:forwarding_url is stored as session variable
+  def redirect_back_or(default)
+    #goes to the forwarding url, or the default nil.
+    redirect_to(session[:forwarding_url] || default)
+    #then deltes the forwarding url session variable
+    session.delete(:forwarding_url)
+  end
+
+  #stores the location of the request in the session variable :forwarding_url
+  def store_location
+    session[:forwarding_url] = request.url if request.get?
   end
 end
